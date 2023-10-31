@@ -1,9 +1,9 @@
-import { prismaClient } from "@/lib/prisma";
-import { ShapesIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import ProductItem from "@/components/ui/product-item";
+import { CATEGORY_ICON } from "@/constants/category-icon";
 import { computeProductTotalPrice } from "@/helpers/product";
-import { CATEGORY_ITEM } from "@/constants/category-icon";
+import { prismaClient } from "@/lib/prisma";
+
 
 const CategoryProducts = async ({ params }: any) => {
   const category = await prismaClient.category.findFirst({
@@ -25,7 +25,7 @@ const CategoryProducts = async ({ params }: any) => {
         className="w-fit gap-1 border-2 border-primary px-3 py-[0.375rem] text-base up"
         variant="outline"
       >
-        {CATEGORY_ITEM[params.slug as keyof typeof CATEGORY_ITEM]}
+        {CATEGORY_ICON[params.slug as keyof typeof CATEGORY_ICON]}
         {category.name}
       </Badge>
 
