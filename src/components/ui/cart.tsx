@@ -4,10 +4,10 @@ import { useContext } from "react";
 import { CartContext } from "@/providers/cart";
 import CartItem from "./cart-item";
 import { computeProductTotalPrice } from "@/helpers/product";
+import { Separator } from "@radix-ui/react-separator";
 
 const Cart = () => {
-  const { products } = useContext(CartContext);
-  const { decreaseProductQuantity } = useContext(CartContext);
+  const { products, subtotal, total, totalDiscount } = useContext(CartContext);
   return (
     <div className="flex flex-col gap-8">
       <Badge
@@ -24,6 +24,29 @@ const Cart = () => {
             product={computeProductTotalPrice(product as any) as any}
           />
         ))}
+      </div>
+      <div className="flex flex-col gap-3">
+        <Separator />
+
+        <div className="flex items-center justify-between text-xs">
+          <p>Subtotal</p>
+          <p>R$ {subtotal.toFixed(2)}</p>
+        </div>
+
+        <div className="flex items-center justify-between text-xs">
+          <p>Entrega</p>
+          <p>GRÁTIS</p>
+        </div>
+
+        <div className="flex items-center justify-between text-xs">
+          <p>Descontos</p>
+          <p>R$ {totalDiscount.toFixed(2)}</p>
+        </div>
+
+        <div className="flex items-center justify-between font-bold text-sm">
+          <p>Total</p>
+          <p>R$ {total.toFixed(2)}</p>
+        </div>
       </div>
     </div>
   );
