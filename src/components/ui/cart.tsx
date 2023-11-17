@@ -7,12 +7,29 @@ import { computeProductTotalPrice } from "@/helpers/product";
 import { Separator } from "@radix-ui/react-separator";
 import { Button } from "./button";
 import { ScrollArea } from "./scroll-area";
+import { createCheckout } from "@/actions/checkout";
+import { loadStripe } from "@stripe/stripe-js";
 
 const Cart = () => {
   const { products, subtotal, total, totalDiscount } = useContext(CartContext);
+
+  const handleFinishPurchaseClick = async () => {
+    const checkout = await createCheckout(products);
+
+    // lib stripe js para o front end
+
+    const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
+
+    stripe?.redirectToCheckout({
+      sessionId: checkout.id,
+    });
+  };
   return (
     <div className="flex h-full flex-col gap-8">
-      <Badge variant={"outline"} className="w-fit border-2 border-primary px-3 py-[0.375rem] text-base uppercase">
+      <Badge
+        variant={"outline"}
+        className="w-fit border-2 border-primary px-3 py-[0.375rem] text-base uppercase"
+      >
         <ShoppingCartIcon size={16} />
         Carrinho
       </Badge>
@@ -67,7 +84,12 @@ const Cart = () => {
             <p>R$ {total.toFixed(2)}</p>
           </div>
 
-          <Button className="mt-7 font-bold uppercase">Finalizar compra</Button>
+          <Button
+            onClick={handleFinishPurchaseClick}
+            className="mt-7 font-bold uppercase"
+          >
+            Finalizar compra
+          </Button>
         </div>
       )}
     </div>
