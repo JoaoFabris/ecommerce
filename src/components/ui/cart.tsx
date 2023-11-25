@@ -16,7 +16,7 @@ const Cart = () => {
   const handleFinishPurchaseClick = async () => {
     const checkout = await createCheckout(products);
 
-    // lib stripe js para o front end
+    // lib stripe js para o front end..
 
     const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
